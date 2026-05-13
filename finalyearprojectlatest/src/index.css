@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  /* CRM Light Theme */
+  --crm-bg: #f8fafc;
+  --crm-sidebar: #ffffff;
+  --crm-card: #ffffff;
+  --crm-primary: #10b981; /* Mint Green from image */
+  --crm-secondary: #f43f5e; /* Coral from image */
+  --crm-text: #1e293b;
+  --crm-text-light: #64748b;
+  --crm-border: #e2e8f0;
+  --crm-radius: 16px;
+  
+  --transition: all 0.2s ease-in-out;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  background-color: var(--crm-bg);
+  color: var(--crm-text);
+  overflow-x: hidden;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+.outfit-font {
+  font-family: 'Outfit', sans-serif;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Responsive Utilities */
+@media (max-width: 1200px) {
+    .admin-grid-top { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (max-width: 768px) {
+    .admin-grid-main { grid-template-columns: 1fr !important; }
+    .admin-grid-top { grid-template-columns: 1fr !important; }
+    .sidebar { width: 80px !important; padding: 20px 10px !important; }
+    .sidebar span, .sidebar p { display: none !important; }
+    .main-content { margin-left: 80px !important; padding: 20px !important; }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.glass {
+  background: var(--admin-card-bg);
+  backdrop-filter: var(--admin-glass-blur);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+}
+
+/* Responsive Grid */
+.grid-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
+}
