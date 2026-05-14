@@ -19,7 +19,7 @@ const LoginPage = () => {
                 event: 'USER_AUTHENTICATION'
             });
             
-            login(res.data);
+            login({ name: res.data.name, email: res.data.email, role: res.data.role }, res.data.token);
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.error || 'Invalid email or password');

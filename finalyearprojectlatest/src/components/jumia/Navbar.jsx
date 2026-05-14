@@ -2,9 +2,11 @@ import React from 'react';
 import { Search, ShoppingCart, User, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { usePrivacy } from '../../context/PrivacyContext';
 
 const Navbar = ({ onCartClick }) => {
     const { totalItems } = useCart();
+    const { activeUser, logout } = usePrivacy();
     
     return (
         <nav style={{ backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', position: 'sticky', top: 0, zIndex: 100 }}>
@@ -37,10 +39,22 @@ const Navbar = ({ onCartClick }) => {
 
                 {/* Links */}
                 <div className="flex align-center gap-20">
-                    <Link to="/login" className="flex align-center gap-10" style={{ fontWeight: '500', textDecoration: 'none', color: '#333' }}>
-                        <User size={20} />
-                        <span>Account</span>
-                    </Link>
+                    {activeUser.email ? (
+                        <div className="flex align-center gap-10">
+                            <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Hi, {activeUser.name.split(' ')[0]}</span>
+                            <Link to="/privacy-center" style={{ fontSize: '12px', color: '#3b82f6', textDecoration: 'none', fontWeight: 'bold', border: '1px solid #3b82f6', padding: '4px 8px', borderRadius: '4px' }}>
+                                Privacy Center
+                            </Link>
+                            <button onClick={logout} style={{ fontSize: '12px', background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 'bold' }}>
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <Link to="/login" className="flex align-center gap-10" style={{ fontWeight: '500', textDecoration: 'none', color: '#333' }}>
+                            <User size={20} />
+                            <span>Account</span>
+                        </Link>
+                    )}
                     <div 
                         onClick={onCartClick}
                         className="flex align-center gap-10" 

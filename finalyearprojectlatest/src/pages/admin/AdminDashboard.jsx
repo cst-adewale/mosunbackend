@@ -6,13 +6,30 @@ import { PrivacyLineChart, SensitivityDoughnut } from '../../components/admin/Pr
 const AdminDashboard = () => {
     const { logs, consoleLines, stats, chartData } = usePrivacy();
     const consoleRef = useRef(null);
+    const [viewedLogId, setViewedLogId] = React.useState(null);
+
+    const getStepType = (text) => {
+        if (text.includes('INFO') || text.includes('SCANNING') || text.includes('DATA MINIMIZATION')) return 'neutral';
+        if (text.includes('DETECTED') || text.includes('ANALYZING') || text.includes('EGRESS MONITOR')) return 'warning';
+        if (text.includes('RISK EVALUATION')) return 'critical';
+        if (text.includes('POLICY APPLIED') || text.includes('COMMITTING') || text.includes('ACTION') || text.includes('SECURITY')) return 'success';
+        return 'neutral';
+    };
+
+    // Determine which lines to show: historical or live
+    const displayLines = viewedLogId 
+        ? logs.find(l => l._id === viewedLogId)?.logicSteps.map(text => ({ 
+            text, 
+            type: getStepType(text) 
+        })) || []
+        : consoleLines;
 
     // Auto-scroll console to bottom
     useEffect(() => {
         if (consoleRef.current) {
             consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
         }
-    }, [consoleLines]);
+    }, [displayLines]);
 
     const getLineColor = (type) => {
         switch (type) {
@@ -41,19 +58,30 @@ const AdminDashboard = () => {
                     <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
                         <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '12px' }}>
                             <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px rgba(16, 185, 129, 0.4)' }}></div>
-                            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Live Framework Analysis</h3>
+                            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>{viewedLogId ? 'Historical Audit Analysis' : 'Live Framework Analysis'}</h3>
                             <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-                                <span style={{ fontSize: '11px', padding: '4px 8px', backgroundColor: '#f1f5f9', borderRadius: '6px', color: '#64748b' }}>SOCKET: ACTIVE</span>
+                                {viewedLogId ? (
+                                    <button 
+                                        onClick={() => setViewedLogId(null)}
+                                        style={{ fontSize: '11px', padding: '4px 8px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+                                    >
+                                        RETURN TO LIVE
+                                    </button>
+                                ) : (
+                                    <span style={{ fontSize: '11px', padding: '4px 8px', backgroundColor: '#f1f5f9', borderRadius: '6px', color: '#64748b', fontWeight: 'bold' }}>
+                                        SOCKET: ACTIVE
+                                    </span>
+                                )}
                             </div>
                         </div>
                         <div 
                             ref={consoleRef}
                             style={{ height: '320px', backgroundColor: '#ffffff', padding: '20px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '12px', scrollBehavior: 'smooth' }}
                         >
-                            {consoleLines.length === 0 ? (
+                            {displayLines.length === 0 ? (
                                 <p style={{ color: '#94a3b8' }}>{'>'} Awaiting intercepted traffic...</p>
                             ) : (
-                                consoleLines.map((line, idx) => (
+                                displayLines.map((line, idx) => (
                                     <div key={idx} style={{ marginBottom: '6px', display: 'flex', gap: '10px' }}>
                                         <span style={{ color: '#e2e8f0' }}>{idx + 1}</span>
                                         <span style={{ color: getLineColor(line.type) }}>{line.text}</span>
@@ -83,7 +111,7 @@ const AdminDashboard = () => {
 
 
                 {/* Right Column: Audit Trail */}
-                <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', maxHeight: '720px' }}>
                     <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Recent Audit History</h3>
                         <button 
@@ -110,7 +138,23 @@ const AdminDashboard = () => {
                                 <p style={{ color: '#94a3b8', textAlign: 'center', marginTop: '40px' }}>No audit data available.</p>
                             ) : (
                                 logs.map(log => (
-                                    <div key={log._id} style={{ display: 'flex', gap: '15px' }}>
+                                    <div 
+                                        key={log._id} 
+                                        onClick={() => setViewedLogId(log._id)}
+                                        style={{ 
+                                            display: 'flex', 
+                                            gap: '15px', 
+                                            cursor: 'pointer', 
+                                            padding: '10px', 
+                                            borderRadius: '12px', 
+                                            transition: 'background-color 0.2s',
+                                            backgroundColor: viewedLogId === log._id ? '#f1f5f9' : 'transparent',
+                                            border: viewedLogId === log._id ? '1px solid #cbd5e1' : '1px solid transparent'
+                                        }}
+                                        onMouseEnter={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = '#f8fafc' }}
+                                        onMouseLeave={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = 'transparent' }}
+                                        title="Click to view full analysis in console"
+                                    >
                                         <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: log.riskScore > 7 ? '#fef2f2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                             {log.riskScore > 7 ? <AlertCircle size={18} color="#ef4444" /> : <Clock size={18} color="#10b981" />}
                                         </div>

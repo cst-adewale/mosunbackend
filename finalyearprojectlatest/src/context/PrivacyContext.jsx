@@ -56,10 +56,10 @@ export const PrivacyProvider = ({ children }) => {
     }, []);
 
     const getStepType = (text) => {
-        if (text.includes('INFO') || text.includes('SCANNING')) return 'neutral';
-        if (text.includes('DETECTED') || text.includes('ANALYZING')) return 'warning';
+        if (text.includes('INFO') || text.includes('SCANNING') || text.includes('DATA MINIMIZATION')) return 'neutral';
+        if (text.includes('DETECTED') || text.includes('ANALYZING') || text.includes('EGRESS MONITOR')) return 'warning';
         if (text.includes('RISK EVALUATION')) return 'critical';
-        if (text.includes('POLICY APPLIED') || text.includes('COMMITTING')) return 'success';
+        if (text.includes('POLICY APPLIED') || text.includes('COMMITTING') || text.includes('ACTION') || text.includes('SECURITY')) return 'success';
         return 'neutral';
     };
 
@@ -107,13 +107,20 @@ export const PrivacyProvider = ({ children }) => {
         }
     };
 
-    const login = (userData) => {
+    const login = (userData, token) => {
         setActiveUser(userData);
+        if (token) localStorage.setItem('token', token);
         addLog('USER_LOGIN', `User logged in: ${userData.email}`, 'LOW');
     };
 
+    const logout = () => {
+        setActiveUser({ name: 'Guest User', role: 'GUEST', email: null });
+        localStorage.removeItem('token');
+        addLog('USER_LOGOUT', `User logged out`, 'LOW');
+    };
+
     return (
-        <PrivacyContext.Provider value={{ logs, consoleLines, activeUser, stats, chartData, addLog, login }}>
+        <PrivacyContext.Provider value={{ logs, consoleLines, activeUser, stats, chartData, addLog, login, logout }}>
             {children}
         </PrivacyContext.Provider>
     );

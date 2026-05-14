@@ -6,6 +6,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ProductDetail from './pages/jumia/ProductDetail';
 import LoginPage from './pages/jumia/LoginPage';
 import RegisterPage from './pages/jumia/RegisterPage';
+import PrivacyCenter from './pages/jumia/PrivacyCenter';
 
 import { PrivacyProvider } from './context/PrivacyContext';
 import { CartProvider } from './context/CartContext';
@@ -24,6 +25,7 @@ function App() {
               <Route path="product/:id" element={<ProductDetail />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="register" element={<RegisterPage />} />
+              <Route path="privacy-center" element={<PrivacyCenter />} />
             </Route>
 
             {/* Admin Dashboard Routes */}
