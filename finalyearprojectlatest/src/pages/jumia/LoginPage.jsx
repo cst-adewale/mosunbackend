@@ -28,9 +28,9 @@ const LoginPage = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
-            <div style={{ backgroundColor: '#fff', width: '400px', borderRadius: '8px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', textAlign: 'center' }}>
+            <div style={{ backgroundColor: 'var(--crm-card)', width: '400px', borderRadius: '8px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', textAlign: 'center', color: 'var(--crm-text)' }}>
                 <h2 style={{ marginBottom: '10px', fontSize: '24px' }} className="outfit-font">Login</h2>
-                <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '30px' }}>Access your Jumia account</p>
+                <p style={{ fontSize: '14px', color: 'var(--crm-text-light)', marginBottom: '30px' }}>Access your Jumia account</p>
 
                 {error && <div style={{ backgroundColor: '#fef2f2', color: '#ef4444', padding: '10px', borderRadius: '4px', marginBottom: '20px', fontSize: '14px' }}>{error}</div>}
 
@@ -43,7 +43,7 @@ const LoginPage = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }}
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }}
                         />
                     </div>
                     <div style={{ textAlign: 'left' }}>
@@ -57,7 +57,7 @@ const LoginPage = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }}
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }}
                         />
                     </div>
                     <button
@@ -68,7 +68,7 @@ const LoginPage = () => {
                     </button>
                 </form>
 
-                <div style={{ marginTop: '30px', fontSize: '14px', color: '#64748b' }}>
+                <div style={{ marginTop: '30px', fontSize: '14px', color: 'var(--crm-text-light)' }}>
                     Don't have an account? <Link to="/register" style={{ color: '#f68b1e', fontWeight: 'bold', textDecoration: 'none' }}>Register Now</Link>
                 </div>
             </div>

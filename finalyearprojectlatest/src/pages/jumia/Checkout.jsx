@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Lock, CreditCard, Truck } from 'lucide-react';
 
 export default function Checkout() {
-    const { cartItems, totalItems, cartTotal, clearCart } = useCart();
+    const { cart, totalItems, totalPrice, clearCart } = useCart();
     const { activeUser } = usePrivacy();
     const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(false);
@@ -25,7 +25,10 @@ export default function Checkout() {
     });
 
     useEffect(() => {
-        if (activeUser.email) {
+        if (!activeUser.email) {
+            alert('Security Requirement: Please log in or create an account to access the Secure Checkout.');
+            navigate('/login');
+        } else {
             const token = localStorage.getItem('token');
             axios.get('http://localhost:5000/api/user/cards', {
                 headers: { Authorization: `Bearer ${token}` }
@@ -33,7 +36,7 @@ export default function Checkout() {
             .then(res => setSavedCards(res.data))
             .catch(err => console.error("Could not fetch cards", err));
         }
-    }, [activeUser]);
+    }, [activeUser, navigate]);
 
     if (totalItems === 0) {
         return (
@@ -61,8 +64,8 @@ export default function Checkout() {
             
             let payload = {
                 ...formData,
-                items: cartItems.map(item => item._id),
-                total: cartTotal,
+                items: cart.map(item => item._id),
+                total: totalPrice,
                 event: 'ECOMMERCE_CHECKOUT'
             };
 
@@ -99,8 +102,8 @@ export default function Checkout() {
 
                 <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {/* Delivery Section */}
-                    <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                        <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #f1f5f9', paddingBottom: '10px' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '8px', border: '1px solid var(--crm-border)', color: 'var(--crm-text)' }}>
+                        <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--crm-border)', paddingBottom: '10px' }}>
                             <Truck size={18} /> Delivery Information
                         </h2>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px' }}>
@@ -113,13 +116,13 @@ export default function Checkout() {
                     </div>
 
                     {/* Payment Section */}
-                    <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                        <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #f1f5f9', paddingBottom: '10px' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '8px', border: '1px solid var(--crm-border)', color: 'var(--crm-text)' }}>
+                        <h2 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid var(--crm-border)', paddingBottom: '10px' }}>
                             <CreditCard size={18} /> Payment & Billing
                         </h2>
 
                         {savedCards.length > 0 && (
-                            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: '#f8fafc', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                            <div style={{ marginBottom: '20px', padding: '15px', backgroundColor: 'var(--crm-bg)', borderRadius: '8px', border: '1px solid var(--crm-border)' }}>
                                 <p style={{ fontSize: '13px', fontWeight: 'bold', marginBottom: '10px' }}>Use a Saved Card</p>
                                 {savedCards.map(card => (
                                     <label key={card.token} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', cursor: 'pointer' }}>
@@ -131,10 +134,10 @@ export default function Checkout() {
                                             onChange={(e) => setUseSavedCard(e.target.value)}
                                         />
                                         <span style={{ fontFamily: 'monospace', fontSize: '14px' }}>{card.maskedNumber}</span>
-                                        <span style={{ fontSize: '12px', color: '#64748b' }}>Exp: {card.expiry}</span>
+                                        <span style={{ fontSize: '12px', color: 'var(--crm-text-light)' }}>Exp: {card.expiry}</span>
                                     </label>
                                 ))}
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', cursor: 'pointer', borderTop: '1px solid #e2e8f0', paddingTop: '10px' }}>
+                                <label style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px', cursor: 'pointer', borderTop: '1px solid var(--crm-border)', paddingTop: '10px' }}>
                                     <input 
                                         type="radio" 
                                         name="savedCard" 
@@ -163,31 +166,31 @@ export default function Checkout() {
                             </>
                         )}
 
-                        <p style={{ fontSize: '11px', color: '#64748b', marginTop: '15px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <p style={{ fontSize: '11px', color: 'var(--crm-text-light)', marginTop: '15px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                             <Lock size={12} /> {useSavedCard ? "Using secure payment token." : "Your payment data is actively masked by our Advanced Privacy Framework before being stored."}
                         </p>
                     </div>
 
                     <button type="submit" disabled={isProcessing} style={{ backgroundColor: '#f68b1e', color: 'white', padding: '15px', borderRadius: '4px', fontWeight: 'bold', fontSize: '16px', border: 'none', cursor: isProcessing ? 'not-allowed' : 'pointer' }}>
-                        {isProcessing ? 'Processing Securely...' : `Pay ₦${cartTotal.toLocaleString()}`}
+                        {isProcessing ? 'Processing Securely...' : `Pay ₦${totalPrice.toLocaleString()}`}
                     </button>
                 </form>
             </div>
 
             {/* Order Summary */}
-            <div style={{ flex: '1 1 300px', backgroundColor: '#fff', padding: '20px', borderRadius: '8px', border: '1px solid #e2e8f0', height: 'fit-content' }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 'bold', borderBottom: '1px solid #e2e8f0', paddingBottom: '10px', marginBottom: '15px' }}>Order Summary</h3>
+            <div style={{ flex: '1 1 300px', backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '8px', border: '1px solid var(--crm-border)', height: 'fit-content', color: 'var(--crm-text)' }}>
+                <h3 style={{ fontSize: '16px', fontWeight: 'bold', borderBottom: '1px solid var(--crm-border)', paddingBottom: '10px', marginBottom: '15px' }}>Order Summary</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                    {cartItems.map((item, idx) => (
+                    {cart.map((item, idx) => (
                         <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
                             <span style={{ color: '#475569', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '70%' }}>{item.name}</span>
                             <span style={{ fontWeight: 'bold' }}>₦{item.price.toLocaleString()}</span>
                         </div>
                     ))}
                 </div>
-                <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '18px' }}>
+                <div style={{ borderTop: '1px solid var(--crm-border)', paddingTop: '15px', display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', fontSize: '18px' }}>
                     <span>Total</span>
-                    <span style={{ color: '#f68b1e' }}>₦{cartTotal.toLocaleString()}</span>
+                    <span style={{ color: '#f68b1e' }}>₦{totalPrice.toLocaleString()}</span>
                 </div>
             </div>
         </div>
@@ -197,8 +200,10 @@ export default function Checkout() {
 const inputStyle = {
     width: '100%',
     padding: '12px',
-    border: '1px solid #cbd5e1',
+    border: '1px solid var(--crm-border)',
     borderRadius: '4px',
     fontSize: '14px',
-    outline: 'none'
+    outline: 'none',
+    backgroundColor: 'var(--input-bg)',
+    color: 'var(--crm-text)'
 };

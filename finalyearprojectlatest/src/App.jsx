@@ -11,12 +11,14 @@ import Checkout from './pages/jumia/Checkout';
 
 import { PrivacyProvider } from './context/PrivacyContext';
 import { CartProvider } from './context/CartContext';
+import { ThemeProvider } from './context/ThemeContext';
 import CookieConsent from './components/jumia/CookieConsent';
 
 function App() {
   return (
-    <PrivacyProvider>
-      <CartProvider>
+    <ThemeProvider>
+      <PrivacyProvider>
+        <CartProvider>
         <CookieConsent />
         <Router>
           <Routes>
@@ -41,6 +43,7 @@ function App() {
         </Router>
       </CartProvider>
     </PrivacyProvider>
+  </ThemeProvider>
   );
 }
 

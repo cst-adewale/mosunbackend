@@ -48,7 +48,7 @@ const JumiaHome = () => {
             {/* Banner Section */}
             <section style={{ display: 'grid', gridTemplateColumns: '200px 1fr 200px', gap: '20px', height: '380px' }}>
                 {/* Categories Sidebar */}
-                <div style={{ backgroundColor: '#fff', padding: '10px', borderRadius: '4px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                <div style={{ backgroundColor: 'var(--crm-card)', padding: '10px', borderRadius: '4px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', color: 'var(--crm-text)' }}>
                     <ul style={{ fontSize: '13px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         <li>Supermarket</li>
                         <li>Health & Beauty</li>
@@ -65,7 +65,7 @@ const JumiaHome = () => {
                 </div>
 
                 {/* Hero Slider */}
-                <div style={{ backgroundColor: '#fff', borderRadius: '4px', overflow: 'hidden', position: 'relative', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                <div style={{ backgroundColor: 'var(--crm-card)', borderRadius: '4px', overflow: 'hidden', position: 'relative', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
                     <img
                         src="https://picsum.photos/seed/jumia-hero/800/400"
                         alt="Hero Banner"
@@ -79,21 +79,21 @@ const JumiaHome = () => {
 
                 {/* Right Promo Column */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ backgroundColor: '#fff', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', color: 'var(--crm-text)' }}>
                         <div style={{ backgroundColor: '#f68b1e', width: '40px', height: '40px', borderRadius: '50%' }}></div>
                         <div style={{ fontSize: '12px' }}>
                             <strong>HELP CENTER</strong>
                             <p>Guide to customer care</p>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: '#fff', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', color: 'var(--crm-text)' }}>
                         <div style={{ backgroundColor: '#f68b1e', width: '40px', height: '40px', borderRadius: '50%' }}></div>
                         <div style={{ fontSize: '12px' }}>
                             <strong>EASY RETURN</strong>
                             <p>Up to 15 days</p>
                         </div>
                     </div>
-                    <div style={{ backgroundColor: '#fff', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', flex: 1, borderRadius: '4px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', color: 'var(--crm-text)' }}>
                         <div style={{ backgroundColor: '#f68b1e', width: '40px', height: '40px', borderRadius: '50%' }}></div>
                         <div style={{ fontSize: '12px' }}>
                             <strong>SELL ON JUMIA</strong>
@@ -104,8 +104,8 @@ const JumiaHome = () => {
             </section>
 
             {/* Flash Sales Section */}
-            <section style={{ backgroundColor: '#fff', borderRadius: '4px', padding: '15px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
-                <div className="flex align-center justify-between" style={{ borderBottom: '1px solid #eee', paddingBottom: '10px', marginBottom: '15px' }}>
+            <section style={{ backgroundColor: 'var(--crm-card)', borderRadius: '4px', padding: '15px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)', color: 'var(--crm-text)' }}>
+                <div className="flex align-center justify-between" style={{ borderBottom: '1px solid var(--crm-border)', paddingBottom: '10px', marginBottom: '15px' }}>
                     <h3 style={{ color: '#f68b1e' }} className="outfit-font">Flash Sales</h3>
                     <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Time Left: 12h : 30m : 05s</span>
                     <a href="#" style={{ color: '#f68b1e', fontSize: '14px', fontWeight: 'bold' }}>SEE ALL {'>'}</a>
@@ -125,12 +125,12 @@ const JumiaHome = () => {
                                 </span>
                             </div>
                             <div style={{ marginTop: '10px', flex: 1 }}>
-                                <p style={{ fontSize: '14px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{product.name}</p>
-                                <p style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px' }}>₦ {Number(product.price).toLocaleString()}</p>
-                                <p style={{ fontSize: '12px', color: '#757575', textDecoration: 'line-through' }}>₦ {Number(product.oldPrice).toLocaleString()}</p>
+                                <p style={{ fontSize: '14px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: 'var(--crm-text)' }}>{product.name}</p>
+                                <p style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px', color: 'var(--crm-text)' }}>₦ {Number(product.price).toLocaleString()}</p>
+                                <p style={{ fontSize: '12px', color: 'var(--crm-text-light)', textDecoration: 'line-through' }}>₦ {Number(product.oldPrice).toLocaleString()}</p>
                                 <div className="flex align-center gap-10" style={{ marginTop: '10px' }}>
                                     <span style={{ color: '#f68b1e' }}>★</span>
-                                    <span style={{ fontSize: '12px', color: '#757575' }}>({product.reviews})</span>
+                                    <span style={{ fontSize: '12px', color: 'var(--crm-text-light)' }}>({product.reviews})</span>
                                 </div>
                             </div>
                             <button 

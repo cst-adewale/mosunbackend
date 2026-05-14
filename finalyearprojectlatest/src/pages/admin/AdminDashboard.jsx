@@ -33,11 +33,11 @@ const AdminDashboard = () => {
 
     const getLineColor = (type) => {
         switch (type) {
-            case 'neutral': return '#64748b';
+            case 'neutral': return 'var(--crm-text-light)';
             case 'warning': return '#f59e0b';
             case 'critical': return '#ef4444';
             case 'success': return '#10b981';
-            default: return '#1e293b';
+            default: return 'var(--crm-text)';
         }
     };
 
@@ -55,10 +55,10 @@ const AdminDashboard = () => {
                 {/* Left Column: Console & Charts */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {/* THE LIVE CONSOLE */}
-                    <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                        <div style={{ padding: '15px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ backgroundColor: 'var(--crm-card)', borderRadius: '16px', border: '1px solid var(--crm-border)', overflow: 'hidden' }}>
+                        <div style={{ padding: '15px 20px', borderBottom: '1px solid var(--crm-border)', display: 'flex', alignItems: 'center', gap: '12px' }}>
                             <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px rgba(16, 185, 129, 0.4)' }}></div>
-                            <h3 style={{ fontSize: '15px', fontWeight: '700' }}>{viewedLogId ? 'Historical Audit Analysis' : 'Live Framework Analysis'}</h3>
+                            <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--crm-text)' }}>{viewedLogId ? 'Historical Audit Analysis' : 'Live Framework Analysis'}</h3>
                             <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
                                 {viewedLogId ? (
                                     <button 
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
                                         RETURN TO LIVE
                                     </button>
                                 ) : (
-                                    <span style={{ fontSize: '10px', padding: '4px 8px', backgroundColor: '#f1f5f9', borderRadius: '4px', color: '#64748b', fontWeight: 'bold' }}>
+                                    <span style={{ fontSize: '10px', padding: '4px 8px', backgroundColor: 'var(--crm-bg)', borderRadius: '4px', color: 'var(--crm-text-light)', fontWeight: 'bold' }}>
                                         SOCKET: ACTIVE
                                     </span>
                                 )}
@@ -76,14 +76,14 @@ const AdminDashboard = () => {
                         </div>
                         <div 
                             ref={consoleRef}
-                            style={{ height: '280px', backgroundColor: '#ffffff', padding: '15px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '12px', scrollBehavior: 'smooth' }}
+                            style={{ height: '280px', backgroundColor: 'var(--crm-card)', padding: '15px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '12px', scrollBehavior: 'smooth' }}
                         >
                             {displayLines.length === 0 ? (
                                 <p style={{ color: '#94a3b8' }}>{'>'} Awaiting intercepted traffic... System actively monitoring Network & Egress layers.</p>
                             ) : (
                                 displayLines.map((line, idx) => (
                                     <div key={idx} style={{ marginBottom: '4px', display: 'flex', gap: '10px' }}>
-                                        <span style={{ color: '#e2e8f0' }}>{idx + 1}</span>
+                                        <span style={{ color: 'var(--crm-border)' }}>{idx + 1}</span>
                                         <span style={{ color: getLineColor(line.type) }}>{line.text}</span>
                                     </div>
                                 ))
@@ -94,14 +94,14 @@ const AdminDashboard = () => {
 
                     {/* Real Charts */}
                     <div className="admin-chart-grid">
-                        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '250px' }}>
-                            <h4 style={{ fontSize: '13px', color: '#64748b', marginBottom: '15px', fontWeight: 'bold' }}>Sensitivity Distribution</h4>
+                        <div style={{ backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '16px', border: '1px solid var(--crm-border)', minHeight: '250px' }}>
+                            <h4 style={{ fontSize: '13px', color: 'var(--crm-text-light)', marginBottom: '15px', fontWeight: 'bold' }}>Sensitivity Distribution</h4>
                             <div style={{ height: '160px' }}>
                                 <SensitivityDoughnut chartData={chartData} />
                             </div>
                         </div>
-                        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '250px' }}>
-                            <h4 style={{ fontSize: '13px', color: '#64748b', marginBottom: '15px', fontWeight: 'bold' }}>Traffic Volume (24h)</h4>
+                        <div style={{ backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '16px', border: '1px solid var(--crm-border)', minHeight: '250px' }}>
+                            <h4 style={{ fontSize: '13px', color: 'var(--crm-text-light)', marginBottom: '15px', fontWeight: 'bold' }}>Traffic Volume (24h)</h4>
                             <div style={{ height: '160px' }}>
                                 <PrivacyLineChart chartData={chartData} />
                             </div>
@@ -111,9 +111,9 @@ const AdminDashboard = () => {
 
 
                 {/* Right Column: Audit Trail */}
-                <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}>
-                    <div style={{ padding: '15px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 style={{ fontSize: '15px', fontWeight: '700' }}>Recent Audit History</h3>
+                <div style={{ backgroundColor: 'var(--crm-card)', borderRadius: '16px', border: '1px solid var(--crm-border)', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}>
+                    <div style={{ padding: '15px 20px', borderBottom: '1px solid var(--crm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--crm-text)' }}>Recent Audit History</h3>
                         <button 
                             onClick={() => {
                                 let csvContent = "data:text/csv;charset=utf-8,Timestamp,Event,User,Role,Endpoint,Sensitivity,RiskScore,DataSummary\n";
@@ -148,24 +148,24 @@ const AdminDashboard = () => {
                                             padding: '10px', 
                                             borderRadius: '8px', 
                                             transition: 'all 0.2s',
-                                            backgroundColor: viewedLogId === log._id ? '#f1f5f9' : 'transparent',
-                                            border: viewedLogId === log._id ? '1px solid #cbd5e1' : '1px solid transparent'
+                                            backgroundColor: viewedLogId === log._id ? 'var(--crm-bg)' : 'transparent',
+                                            border: viewedLogId === log._id ? '1px solid var(--crm-border)' : '1px solid transparent'
                                         }}
-                                        onMouseEnter={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = '#f8fafc' }}
+                                        onMouseEnter={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = 'var(--crm-bg)' }}
                                         onMouseLeave={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = 'transparent' }}
                                         title="Click to view full analysis in console"
                                     >
-                                        <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: log.riskScore > 7 ? '#fef2f2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                        <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: log.riskScore > 7 ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                                             {log.riskScore > 7 ? <AlertCircle size={16} color="#ef4444" /> : <Clock size={16} color="#10b981" />}
                                         </div>
                                         <div style={{ flex: 1 }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                                                <p style={{ fontWeight: '700', fontSize: '13px', color: '#1e293b' }}>{log.event}</p>
-                                                <span style={{ fontSize: '10px', color: '#94a3b8' }}>{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                <p style={{ fontWeight: '700', fontSize: '13px', color: 'var(--crm-text)' }}>{log.event}</p>
+                                                <span style={{ fontSize: '10px', color: 'var(--crm-text-light)' }}>{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                             </div>
-                                            <p style={{ fontSize: '11px', color: '#64748b' }}>{log.user.name} ({log.user.role})</p>
+                                            <p style={{ fontSize: '11px', color: 'var(--crm-text-light)' }}>{log.user.name} ({log.user.role})</p>
                                             <div style={{ marginTop: '6px', display: 'flex', gap: '6px' }}>
-                                                <span style={{ fontSize: '9px', padding: '2px 6px', borderRadius: '10px', backgroundColor: '#f1f5f9', color: '#475569', fontWeight: 'bold' }}>
+                                                <span style={{ fontSize: '9px', padding: '2px 6px', borderRadius: '10px', backgroundColor: 'var(--crm-bg)', color: 'var(--crm-text-light)', fontWeight: 'bold' }}>
                                                     Score: {log.riskScore}/10
                                                 </span>
                                             </div>
@@ -210,10 +210,10 @@ const AdminDashboard = () => {
 };
 
 const StatCard = ({ label, value, change, color }) => (
-    <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', transition: 'all 0.2s ease' }}>
-        <p style={{ color: '#64748b', fontSize: '12px', marginBottom: '8px', fontWeight: 'bold', textTransform: 'uppercase' }}>{label}</p>
+    <div style={{ backgroundColor: 'var(--crm-card)', padding: '20px', borderRadius: '16px', border: '1px solid var(--crm-border)', transition: 'all 0.2s ease' }}>
+        <p style={{ color: 'var(--crm-text-light)', fontSize: '12px', marginBottom: '8px', fontWeight: 'bold', textTransform: 'uppercase' }}>{label}</p>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#1e293b' }}>{value}</h2>
+            <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--crm-text)' }}>{value}</h2>
             <span style={{ fontSize: '11px', fontWeight: '700', color: color }}>{change}</span>
         </div>
     </div>

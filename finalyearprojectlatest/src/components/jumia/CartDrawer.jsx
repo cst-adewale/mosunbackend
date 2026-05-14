@@ -27,13 +27,14 @@ const CartDrawer = ({ isOpen, onClose }) => {
             
             {/* Drawer */}
             <div style={{ 
-                position: 'relative', width: '400px', backgroundColor: '#fff', 
+                position: 'relative', width: '400px', backgroundColor: 'var(--crm-card)', 
                 height: '100%', boxShadow: '-5px 0 25px rgba(0,0,0,0.1)', 
-                display: 'flex', flexDirection: 'column', animation: 'slideIn 0.3s ease' 
+                display: 'flex', flexDirection: 'column', animation: 'slideIn 0.3s ease',
+                color: 'var(--crm-text)'
             }}>
-                <div style={{ padding: '20px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ padding: '20px', borderBottom: '1px solid var(--crm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 style={{ fontSize: '18px', fontWeight: 'bold' }}>My Cart ({cart.length})</h2>
-                    <X size={24} style={{ cursor: 'pointer' }} onClick={onClose} />
+                    <X size={24} style={{ cursor: 'pointer', color: 'var(--crm-text)' }} onClick={onClose} />
                 </div>
 
                 <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
@@ -48,13 +49,13 @@ const CartDrawer = ({ isOpen, onClose }) => {
                                 <div key={item._id} style={{ display: 'flex', gap: '15px', paddingBottom: '15px', borderBottom: '1px solid #f5f5f5' }}>
                                     <img src={item.image} alt={item.name} style={{ width: '80px', height: '80px', borderRadius: '4px', objectFit: 'cover' }} />
                                     <div style={{ flex: 1 }}>
-                                        <p style={{ fontSize: '14px', fontWeight: '500' }}>{item.name}</p>
-                                        <p style={{ fontSize: '16px', fontWeight: 'bold', margin: '4px 0' }}>₦ {item.price.toLocaleString()}</p>
+                                        <p style={{ fontSize: '14px', fontWeight: '500', color: 'var(--crm-text)' }}>{item.name}</p>
+                                        <p style={{ fontSize: '16px', fontWeight: 'bold', margin: '4px 0', color: 'var(--crm-text)' }}>₦ {item.price.toLocaleString()}</p>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #ddd', borderRadius: '4px' }}>
-                                                <button onClick={() => updateQuantity(item._id, -1)} style={{ padding: '4px 8px', border: 'none', background: 'none', cursor: 'pointer' }}><Minus size={14}/></button>
-                                                <span style={{ padding: '0 10px', fontSize: '14px' }}>{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item._id, 1)} style={{ padding: '4px 8px', border: 'none', background: 'none', cursor: 'pointer' }}><Plus size={14}/></button>
+                                            <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--crm-border)', borderRadius: '4px', backgroundColor: 'var(--input-bg)' }}>
+                                                <button onClick={() => updateQuantity(item._id, -1)} style={{ padding: '4px 8px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--crm-text)' }}><Minus size={14}/></button>
+                                                <span style={{ padding: '0 10px', fontSize: '14px', color: 'var(--crm-text)' }}>{item.quantity}</span>
+                                                <button onClick={() => updateQuantity(item._id, 1)} style={{ padding: '4px 8px', border: 'none', background: 'none', cursor: 'pointer', color: 'var(--crm-text)' }}><Plus size={14}/></button>
                                             </div>
                                             <Trash2 
                                                 size={18} 
@@ -71,15 +72,15 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 </div>
 
                 {cart.length > 0 && (
-                    <div style={{ padding: '20px', borderTop: '1px solid #eee', backgroundColor: '#fafafa' }}>
+                    <div style={{ padding: '20px', borderTop: '1px solid var(--crm-border)', backgroundColor: 'var(--crm-bg)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                            <span style={{ color: '#757575' }}>Subtotal</span>
-                            <span style={{ fontSize: '20px', fontWeight: 'bold' }}>₦ {totalPrice.toLocaleString()}</span>
+                            <span style={{ color: 'var(--crm-text-light)' }}>Subtotal</span>
+                            <span style={{ fontSize: '20px', fontWeight: 'bold', color: 'var(--crm-text)' }}>₦ {totalPrice.toLocaleString()}</span>
                         </div>
                         <div style={{ display: 'flex', gap: '10px' }}>
                             <button 
                                 onClick={clearCart}
-                                style={{ flex: 1, padding: '15px', borderRadius: '4px', border: '1px solid #ddd', background: '#fff', fontWeight: 'bold', cursor: 'pointer' }}
+                                style={{ flex: 1, padding: '15px', borderRadius: '4px', border: '1px solid var(--crm-border)', background: 'var(--crm-card)', color: 'var(--crm-text)', fontWeight: 'bold', cursor: 'pointer' }}
                             >
                                 CLEAR ALL
                             </button>

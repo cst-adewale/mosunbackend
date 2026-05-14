@@ -1,18 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
-  /* CRM Light Theme */
+  /* Light Theme */
   --crm-bg: #f8fafc;
   --crm-sidebar: #ffffff;
   --crm-card: #ffffff;
-  --crm-primary: #10b981; /* Mint Green from image */
-  --crm-secondary: #f43f5e; /* Coral from image */
+  --crm-primary: #10b981;
+  --crm-secondary: #f43f5e;
   --crm-text: #1e293b;
   --crm-text-light: #64748b;
   --crm-border: #e2e8f0;
   --crm-radius: 16px;
-  
-  --transition: all 0.2s ease-in-out;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+}
+
+[data-theme='dark'] {
+  --crm-bg: #0f172a;
+  --crm-sidebar: #1e293b;
+  --crm-card: #1e293b;
+  --crm-primary: #10b981;
+  --crm-secondary: #f43f5e;
+  --crm-text: #f1f5f9;
+  --crm-text-light: #94a3b8;
+  --crm-border: #334155;
+  --header-bg: rgba(15, 23, 42, 0.8);
+  --input-bg: #1e293b;
+  --input-border: #334155;
 }
 
 

@@ -12,7 +12,7 @@ export default function PrivacyCenter() {
     if (!activeUser.email) {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
-                <p style={{ color: '#64748b' }}>Please log in to view your Privacy Center.</p>
+                <p style={{ color: 'var(--crm-text-light)' }}>Please log in to view your Privacy Center.</p>
             </div>
         );
     }
@@ -47,14 +47,14 @@ export default function PrivacyCenter() {
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 20px' }} className="fade-in">
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '30px' }}>
                 <Shield color="#f68b1e" size={36} />
-                <h1 style={{ fontSize: '28px', fontWeight: '800', color: '#1e293b' }} className="outfit-font">My Privacy Center</h1>
+                <h1 style={{ fontSize: '28px', fontWeight: '800', color: 'var(--crm-text)' }} className="outfit-font">My Privacy Center</h1>
             </div>
 
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0', marginBottom: '30px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ backgroundColor: 'var(--crm-card)', borderRadius: '16px', padding: '30px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid var(--crm-border)', marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--crm-text)' }}>
                     <Database size={20} color="#3b82f6"/> Your Data Profile
                 </h2>
-                <div style={{ backgroundColor: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                <div style={{ backgroundColor: 'var(--crm-bg)', padding: '20px', borderRadius: '12px', border: '1px solid var(--crm-border)', color: 'var(--crm-text)' }}>
                     <p style={{ marginBottom: '10px' }}><strong>Name:</strong> {activeUser.name}</p>
                     <p style={{ marginBottom: '10px' }}><strong>Email:</strong> {activeUser.email}</p>
                     <p style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -66,11 +66,11 @@ export default function PrivacyCenter() {
                 </div>
             </div>
 
-            <div style={{ backgroundColor: '#fef2f2', borderRadius: '16px', padding: '30px', border: '1px solid #fee2e2' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#b91c1c', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', borderRadius: '16px', padding: '30px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#ef4444', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <AlertTriangle size={20} /> NDPR Right to be Forgotten
                 </h2>
-                <p style={{ color: '#dc2626', fontSize: '14px', marginBottom: '20px', lineHeight: '1.5' }}>
+                <p style={{ color: 'var(--crm-text)', fontSize: '14px', opacity: 0.8, marginBottom: '20px', lineHeight: '1.5' }}>
                     Under the Nigeria Data Protection Regulation (NDPR), you have the right to request the permanent deletion of your personal data from our servers. This action is irreversible.
                 </p>
                 

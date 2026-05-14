@@ -33,9 +33,9 @@ const RegisterPage = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '60px 0' }}>
-            <div style={{ backgroundColor: '#fff', width: '450px', borderRadius: '8px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', textAlign: 'center' }}>
+            <div style={{ backgroundColor: 'var(--crm-card)', width: '450px', borderRadius: '8px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', textAlign: 'center', color: 'var(--crm-text)' }}>
                 <h2 style={{ marginBottom: '10px', fontSize: '24px' }} className="outfit-font">Create Account</h2>
-                <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '30px' }}>Register to enjoy the Advanced Privacy Framework</p>
+                <p style={{ fontSize: '14px', color: 'var(--crm-text-light)', marginBottom: '30px' }}>Register to enjoy the Advanced Privacy Framework</p>
 
                 {error && <div style={{ backgroundColor: '#fef2f2', color: '#ef4444', padding: '10px', borderRadius: '4px', marginBottom: '20px', fontSize: '14px' }}>{error}</div>}
 
@@ -48,7 +48,7 @@ const RegisterPage = () => {
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
                             placeholder="John Doe" 
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }} 
                         />
                     </div>
 
@@ -60,7 +60,7 @@ const RegisterPage = () => {
                             value={formData.email}
                             onChange={(e) => setFormData({...formData, email: e.target.value})}
                             placeholder="email@example.com" 
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }} 
                         />
                     </div>
 
@@ -72,7 +72,7 @@ const RegisterPage = () => {
                             value={formData.phone}
                             onChange={(e) => setFormData({...formData, phone: e.target.value})}
                             placeholder="08012345678" 
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }} 
                         />
                     </div>
 
@@ -83,7 +83,7 @@ const RegisterPage = () => {
                             value={formData.bvn}
                             onChange={(e) => setFormData({...formData, bvn: e.target.value})}
                             placeholder="e.g. 12345678901" 
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }} 
                         />
                     </div>
 
@@ -95,7 +95,7 @@ const RegisterPage = () => {
                             value={formData.password}
                             onChange={(e) => setFormData({...formData, password: e.target.value})}
                             placeholder="Min 8 characters" 
-                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                            style={{ width: '100%', padding: '12px', border: '1px solid var(--crm-border)', borderRadius: '6px', backgroundColor: 'var(--input-bg)', color: 'var(--crm-text)' }} 
                         />
                     </div>
 
@@ -107,7 +107,7 @@ const RegisterPage = () => {
                     </button>
                 </form>
 
-                <div style={{ marginTop: '30px', fontSize: '14px', color: '#64748b' }}>
+                <div style={{ marginTop: '30px', fontSize: '14px', color: 'var(--crm-text-light)' }}>
                     Already have an account? <Link to="/login" style={{ color: '#f68b1e', fontWeight: 'bold', textDecoration: 'none' }}>Login</Link>
                 </div>
             </div>
