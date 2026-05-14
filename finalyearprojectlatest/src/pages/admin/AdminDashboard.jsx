@@ -84,8 +84,25 @@ const AdminDashboard = () => {
 
                 {/* Right Column: Audit Trail */}
                 <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0' }}>
+                    <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Recent Audit History</h3>
+                        <button 
+                            onClick={() => {
+                                let csvContent = "data:text/csv;charset=utf-8,Timestamp,Event,User,Role,Endpoint,Sensitivity,RiskScore,DataSummary\n";
+                                logs.forEach(log => {
+                                    csvContent += `${new Date(log.timestamp).toISOString()},${log.event},${log.user.name},${log.user.role},${log.endpoint},${log.sensitivity},${log.riskScore},"${log.dataSummary}"\n`;
+                                });
+                                const link = document.createElement("a");
+                                link.setAttribute("href", encodeURI(csvContent));
+                                link.setAttribute("download", `ndpr_compliance_report.csv`);
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }}
+                            style={{ padding: '8px 16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer' }}
+                        >
+                            Download NDPR Report
+                        </button>
                     </div>
                     <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

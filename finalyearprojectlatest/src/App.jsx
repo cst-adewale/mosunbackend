@@ -9,11 +9,13 @@ import RegisterPage from './pages/jumia/RegisterPage';
 
 import { PrivacyProvider } from './context/PrivacyContext';
 import { CartProvider } from './context/CartContext';
+import CookieConsent from './components/jumia/CookieConsent';
 
 function App() {
   return (
     <PrivacyProvider>
       <CartProvider>
+        <CookieConsent />
         <Router>
           <Routes>
             {/* Jumia Storefront Routes */}

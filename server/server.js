@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import morgan from 'morgan';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -70,7 +71,22 @@ const PII_PATTERNS = {
     email: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
     phone: /(\+?234|0)[789][01]\d{8}/g,
     bvn: /\b\d{11}\b/g,
+    nin: /\b\d{11}\b/g,
+    nuban: /\b\d{10}\b/g,
     creditCard: /\b(?:\d[ -]*?){13,16}\b/g,
+};
+
+// Helper function to mask strings dynamically
+const maskString = (str, type) => {
+    if (!str) return str;
+    if (type === 'email') {
+        const [name, domain] = str.split('@');
+        return `${name[0]}***@${domain}`;
+    }
+    if (str.length > 4) {
+        return '*'.repeat(str.length - 4) + str.slice(-4);
+    }
+    return '***';
 };
 
 // --- PRIVACY INTERCEPTOR MIDDLEWARE ---
@@ -81,13 +97,30 @@ const privacyInterceptor = async (req, res, next) => {
     steps.push(`[${timestamp}] INFO: Intercepted ${req.method} request to ${req.originalUrl}`);
     steps.push(`[${timestamp}] SCANNING: Initializing Deep Packet Inspection...`);
     
-    const bodyString = JSON.stringify(req.body);
+    let bodyString = JSON.stringify(req.body);
     let detectedPII = [];
+    let isMasked = false;
     
-    // Reset regex lastIndex to avoid stateful test() issues
+    // Reset regex lastIndex and scan
     for (const [type, pattern] of Object.entries(PII_PATTERNS)) {
         pattern.lastIndex = 0; 
-        if (pattern.test(bodyString)) detectedPII.push(type.toUpperCase());
+        if (pattern.test(bodyString)) {
+            detectedPII.push(type.toUpperCase());
+            
+            // Apply Active Data Masking for critical fields
+            if (['bvn', 'nin', 'nuban', 'creditCard'].includes(type)) {
+                pattern.lastIndex = 0; // reset again before replace
+                bodyString = bodyString.replace(pattern, (match) => {
+                    isMasked = true;
+                    return maskString(match, type);
+                });
+            }
+        }
+    }
+
+    if (isMasked) {
+        req.body = JSON.parse(bodyString);
+        steps.push(`[${timestamp}] ACTION: Executed active data masking on sensitive fields.`);
     }
 
     const role = req.headers['x-user-role'] || 'GUEST';
@@ -98,24 +131,26 @@ const privacyInterceptor = async (req, res, next) => {
 
     if (detectedPII.length > 0) {
         steps.push(`[${timestamp}] DETECTED: Found sensitive fields [${detectedPII.join(', ')}]`);
-        sensitivity = detectedPII.includes('BVN') ? 'CRITICAL' : 'HIGH';
+        const criticalFields = ['BVN', 'NIN', 'CREDITCARD'];
+        sensitivity = detectedPII.some(p => criticalFields.includes(p)) ? 'CRITICAL' : 'HIGH';
         riskScore = sensitivity === 'CRITICAL' ? 9 : 6;
         if (role === 'GUEST') riskScore += 2;
         steps.push(`[${timestamp}] RISK EVALUATION: Score [${riskScore}/10] - Sensitivity [${sensitivity}]`);
-        steps.push(`[${timestamp}] POLICY APPLIED: Dynamic Data Masking & Anonymization.`);
+        if (isMasked) {
+            steps.push(`[${timestamp}] POLICY APPLIED: Dynamic Data Masking & Anonymization.`);
+        }
     } else {
         steps.push(`[${timestamp}] SCANNING: No PII detected in request body.`);
         steps.push(`[${timestamp}] POLICY APPLIED: Standard Security Protocol.`);
     }
 
     const logEntry = new PrivacyLog({
-
         user: { name: req.headers['x-user-name'] || 'Guest', role: req.headers['x-user-role'] || 'GUEST' },
         event: req.body.event || `${req.method}_ACTION`,
         endpoint: req.originalUrl,
         sensitivity,
         riskScore,
-        dataSummary: detectedPII.length > 0 ? `Detected ${detectedPII.join(', ')}` : 'Routine API Call',
+        dataSummary: detectedPII.length > 0 ? `Detected ${detectedPII.join(', ')}${isMasked ? ' (Masked Before DB)' : ''}` : 'Routine API Call',
         logicSteps: steps
     });
 
@@ -131,7 +166,9 @@ const privacyInterceptor = async (req, res, next) => {
 app.post('/api/auth/register', privacyInterceptor, async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        const user = new User({ name, email, password });
+        // Password Encryption
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = new User({ name, email, password: hashedPassword });
         await user.save();
         res.status(201).json({ message: 'User registered successfully', user: { name, email, role: 'GUEST' } });
     } catch (err) {
@@ -141,11 +178,24 @@ app.post('/api/auth/register', privacyInterceptor, async (req, res) => {
 
 app.post('/api/auth/login', privacyInterceptor, async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
-    if (user) {
+    const user = await User.findOne({ email });
+    // Secure Password Comparison
+    if (user && await bcrypt.compare(password, user.password)) {
         res.json({ name: user.name, email: user.email, role: user.role });
     } else {
         res.status(401).json({ error: 'Invalid credentials' });
+    }
+});
+
+// --- NDPR COMPLIANCE ROUTES ---
+app.delete('/api/user/delete', privacyInterceptor, async (req, res) => {
+    // Right to be forgotten (NDPR Art 2.6)
+    try {
+        const { email } = req.body; // In a fully secure app, this uses auth token instead
+        await User.findOneAndDelete({ email });
+        res.json({ message: 'Account and associated data permanently deleted per NDPR guidelines.' });
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to execute data deletion' });
     }
 });
 

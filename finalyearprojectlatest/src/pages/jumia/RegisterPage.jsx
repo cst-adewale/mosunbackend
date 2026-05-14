@@ -10,7 +10,8 @@ const RegisterPage = () => {
         name: '',
         email: '',
         password: '',
-        phone: ''
+        phone: '',
+        bvn: ''
     });
     const [error, setError] = useState('');
 
@@ -71,6 +72,17 @@ const RegisterPage = () => {
                             value={formData.phone}
                             onChange={(e) => setFormData({...formData, phone: e.target.value})}
                             placeholder="08012345678" 
+                            style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
+                        />
+                    </div>
+
+                    <div>
+                        <label style={{ fontSize: '13px', fontWeight: '600', display: 'block', marginBottom: '8px' }}>BVN or NIN (For Privacy Demo)</label>
+                        <input 
+                            type="text" 
+                            value={formData.bvn}
+                            onChange={(e) => setFormData({...formData, bvn: e.target.value})}
+                            placeholder="e.g. 12345678901" 
                             style={{ width: '100%', padding: '12px', border: '1px solid #e2e8f0', borderRadius: '6px' }} 
                         />
                     </div>
