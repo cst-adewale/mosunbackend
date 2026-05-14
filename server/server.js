@@ -71,7 +71,12 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true }, // In a real app, hash this!
-    role: { type: String, default: 'GUEST' }
+    role: { type: String, default: 'GUEST' },
+    savedCards: [{
+        maskedNumber: String,
+        expiry: String,
+        token: String
+    }]
 });
 
 const productSchema = new mongoose.Schema({
@@ -239,6 +244,39 @@ app.delete('/api/user/delete', authMiddleware, privacyInterceptor, async (req, r
     } catch (err) {
         res.status(500).json({ error: 'Failed to execute data deletion' });
     }
+});
+
+// --- CHECKOUT ROUTE ---
+app.get('/api/user/cards', authMiddleware, async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.user.email });
+        res.json(user?.savedCards || []);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to fetch saved cards' });
+    }
+});
+
+app.post('/api/checkout', authMiddleware, privacyInterceptor, async (req, res) => {
+    const { saveCard, cardNumber, expiry } = req.body;
+    
+    if (saveCard && cardNumber) {
+        // Because of the privacyInterceptor, req.body.cardNumber might ALREADY be masked here!
+        // We generate a secure payment token to represent the card (Tokenization)
+        const user = await User.findOne({ email: req.user.email });
+        const masked = cardNumber.includes('*') ? cardNumber : `**** **** **** ${cardNumber.slice(-4)}`;
+        
+        if (user && !user.savedCards.find(c => c.maskedNumber === masked)) {
+            user.savedCards.push({
+                maskedNumber: masked,
+                expiry: expiry || '12/25',
+                token: `tok_sec_${Math.random().toString(36).substr(2, 9)}`
+            });
+            await user.save();
+        }
+    }
+
+    // In a real app, this would process the payment, save the order, and clear the cart.
+    res.json({ message: 'Order placed successfully. Payment data tokenized and secured.' });
 });
 
 // --- PRODUCT ROUTES ---

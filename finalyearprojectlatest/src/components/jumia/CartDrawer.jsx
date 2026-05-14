@@ -3,23 +3,18 @@ import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { usePrivacy } from '../../context/PrivacyContext';
 
+import { useNavigate } from 'react-router-dom';
+
 const CartDrawer = ({ isOpen, onClose }) => {
     const { cart, removeFromCart, updateQuantity, clearCart, totalPrice } = useCart();
     const { addLog } = usePrivacy();
+    const navigate = useNavigate();
 
     if (!isOpen) return null;
 
     const handleCheckout = () => {
-        // Trigger a HIGH SENSITIVITY privacy event
-        const checkoutData = {
-            orderTotal: totalPrice,
-            items: cart.length,
-            userAddress: '123 Fake Street, Lagos, Nigeria',
-            paymentMethod: 'MASTERCARD **** 4421'
-        };
-        addLog('CHECKOUT_INITIATED', JSON.stringify(checkoutData), 'HIGH');
-        alert('Checkout simulated! Privacy Framework is analyzing your sensitive data...');
         onClose();
+        navigate('/checkout');
     };
 
     return (

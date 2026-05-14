@@ -42,33 +42,33 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }} className="fade-in">
+        <div className="admin-dashboard-container fade-in">
             {/* Top Statistics Cards */}
-            <div className="admin-grid-top" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+            <div className="admin-grid-top">
                 <StatCard label="Privacy Score" value={`${stats.privacyScore}%`} change="Safe" color="#10b981" />
                 <StatCard label="PII Detected" value={stats.piiCount} change={stats.growth} color="#38bdf8" />
                 <StatCard label="Critical Alerts" value={stats.activeAlerts} change="Mitigated" color="#f43f5e" />
                 <StatCard label="Requests Processed" value={stats.totalRequests} change="Active" color="#6366f1" />
             </div>
 
-            <div className="admin-grid-main" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }}>
+            <div className="admin-grid-main">
                 {/* Left Column: Console & Charts */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     {/* THE LIVE CONSOLE */}
-                    <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
-                        <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px rgba(16, 185, 129, 0.4)' }}></div>
-                            <h3 style={{ fontSize: '16px', fontWeight: '700' }}>{viewedLogId ? 'Historical Audit Analysis' : 'Live Framework Analysis'}</h3>
+                    <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+                        <div style={{ padding: '15px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 10px rgba(16, 185, 129, 0.4)' }}></div>
+                            <h3 style={{ fontSize: '15px', fontWeight: '700' }}>{viewedLogId ? 'Historical Audit Analysis' : 'Live Framework Analysis'}</h3>
                             <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
                                 {viewedLogId ? (
                                     <button 
                                         onClick={() => setViewedLogId(null)}
-                                        style={{ fontSize: '11px', padding: '4px 8px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+                                        style={{ fontSize: '10px', padding: '4px 8px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }}
                                     >
                                         RETURN TO LIVE
                                     </button>
                                 ) : (
-                                    <span style={{ fontSize: '11px', padding: '4px 8px', backgroundColor: '#f1f5f9', borderRadius: '6px', color: '#64748b', fontWeight: 'bold' }}>
+                                    <span style={{ fontSize: '10px', padding: '4px 8px', backgroundColor: '#f1f5f9', borderRadius: '4px', color: '#64748b', fontWeight: 'bold' }}>
                                         SOCKET: ACTIVE
                                     </span>
                                 )}
@@ -76,13 +76,13 @@ const AdminDashboard = () => {
                         </div>
                         <div 
                             ref={consoleRef}
-                            style={{ height: '320px', backgroundColor: '#ffffff', padding: '20px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '12px', scrollBehavior: 'smooth' }}
+                            style={{ height: '280px', backgroundColor: '#ffffff', padding: '15px', overflowY: 'auto', fontFamily: 'monospace', fontSize: '12px', scrollBehavior: 'smooth' }}
                         >
                             {displayLines.length === 0 ? (
-                                <p style={{ color: '#94a3b8' }}>{'>'} Awaiting intercepted traffic...</p>
+                                <p style={{ color: '#94a3b8' }}>{'>'} Awaiting intercepted traffic... System actively monitoring Network & Egress layers.</p>
                             ) : (
                                 displayLines.map((line, idx) => (
-                                    <div key={idx} style={{ marginBottom: '6px', display: 'flex', gap: '10px' }}>
+                                    <div key={idx} style={{ marginBottom: '4px', display: 'flex', gap: '10px' }}>
                                         <span style={{ color: '#e2e8f0' }}>{idx + 1}</span>
                                         <span style={{ color: getLineColor(line.type) }}>{line.text}</span>
                                     </div>
@@ -93,16 +93,16 @@ const AdminDashboard = () => {
 
 
                     {/* Real Charts */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-                        <div style={{ backgroundColor: '#ffffff', padding: '25px', borderRadius: '24px', border: '1px solid #e2e8f0', minHeight: '280px' }}>
-                            <h4 style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>Sensitivity Distribution</h4>
-                            <div style={{ height: '180px' }}>
+                    <div className="admin-chart-grid">
+                        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '250px' }}>
+                            <h4 style={{ fontSize: '13px', color: '#64748b', marginBottom: '15px', fontWeight: 'bold' }}>Sensitivity Distribution</h4>
+                            <div style={{ height: '160px' }}>
                                 <SensitivityDoughnut chartData={chartData} />
                             </div>
                         </div>
-                        <div style={{ backgroundColor: '#ffffff', padding: '25px', borderRadius: '24px', border: '1px solid #e2e8f0', minHeight: '280px' }}>
-                            <h4 style={{ fontSize: '14px', color: '#64748b', marginBottom: '20px' }}>Traffic Volume (24h)</h4>
-                            <div style={{ height: '180px' }}>
+                        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '250px' }}>
+                            <h4 style={{ fontSize: '13px', color: '#64748b', marginBottom: '15px', fontWeight: 'bold' }}>Traffic Volume (24h)</h4>
+                            <div style={{ height: '160px' }}>
                                 <PrivacyLineChart chartData={chartData} />
                             </div>
                         </div>
@@ -111,9 +111,9 @@ const AdminDashboard = () => {
 
 
                 {/* Right Column: Audit Trail */}
-                <div style={{ backgroundColor: '#ffffff', borderRadius: '24px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', maxHeight: '720px' }}>
-                    <div style={{ padding: '20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 style={{ fontSize: '16px', fontWeight: '700' }}>Recent Audit History</h3>
+                <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column', maxHeight: '600px' }}>
+                    <div style={{ padding: '15px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 style={{ fontSize: '15px', fontWeight: '700' }}>Recent Audit History</h3>
                         <button 
                             onClick={() => {
                                 let csvContent = "data:text/csv;charset=utf-8,Timestamp,Event,User,Role,Endpoint,Sensitivity,RiskScore,DataSummary\n";
@@ -127,15 +127,15 @@ const AdminDashboard = () => {
                                 link.click();
                                 document.body.removeChild(link);
                             }}
-                            style={{ padding: '8px 16px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', cursor: 'pointer' }}
+                            style={{ padding: '6px 12px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer' }}
                         >
-                            Download NDPR Report
+                            Download NDPR
                         </button>
                     </div>
-                    <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ flex: 1, overflowY: 'auto', padding: '15px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             {logs.length === 0 ? (
-                                <p style={{ color: '#94a3b8', textAlign: 'center', marginTop: '40px' }}>No audit data available.</p>
+                                <p style={{ color: '#94a3b8', textAlign: 'center', marginTop: '30px', fontSize: '13px' }}>No audit data available.</p>
                             ) : (
                                 logs.map(log => (
                                     <div 
@@ -143,11 +143,11 @@ const AdminDashboard = () => {
                                         onClick={() => setViewedLogId(log._id)}
                                         style={{ 
                                             display: 'flex', 
-                                            gap: '15px', 
+                                            gap: '12px', 
                                             cursor: 'pointer', 
                                             padding: '10px', 
-                                            borderRadius: '12px', 
-                                            transition: 'background-color 0.2s',
+                                            borderRadius: '8px', 
+                                            transition: 'all 0.2s',
                                             backgroundColor: viewedLogId === log._id ? '#f1f5f9' : 'transparent',
                                             border: viewedLogId === log._id ? '1px solid #cbd5e1' : '1px solid transparent'
                                         }}
@@ -155,17 +155,17 @@ const AdminDashboard = () => {
                                         onMouseLeave={(e) => { if (viewedLogId !== log._id) e.currentTarget.style.backgroundColor = 'transparent' }}
                                         title="Click to view full analysis in console"
                                     >
-                                        <div style={{ width: '36px', height: '36px', borderRadius: '10px', backgroundColor: log.riskScore > 7 ? '#fef2f2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                            {log.riskScore > 7 ? <AlertCircle size={18} color="#ef4444" /> : <Clock size={18} color="#10b981" />}
+                                        <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: log.riskScore > 7 ? '#fef2f2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                                            {log.riskScore > 7 ? <AlertCircle size={16} color="#ef4444" /> : <Clock size={16} color="#10b981" />}
                                         </div>
                                         <div style={{ flex: 1 }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                                <p style={{ fontWeight: '700', fontSize: '14px' }}>{log.event}</p>
-                                                <span style={{ fontSize: '11px', color: '#94a3b8' }}>{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                                                <p style={{ fontWeight: '700', fontSize: '13px', color: '#1e293b' }}>{log.event}</p>
+                                                <span style={{ fontSize: '10px', color: '#94a3b8' }}>{new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                             </div>
-                                            <p style={{ fontSize: '12px', color: '#64748b' }}>{log.user.name} ({log.user.role})</p>
-                                            <div style={{ marginTop: '8px', display: 'flex', gap: '8px' }}>
-                                                <span style={{ fontSize: '10px', padding: '2px 8px', borderRadius: '12px', backgroundColor: '#f1f5f9', color: '#475569' }}>
+                                            <p style={{ fontSize: '11px', color: '#64748b' }}>{log.user.name} ({log.user.role})</p>
+                                            <div style={{ marginTop: '6px', display: 'flex', gap: '6px' }}>
+                                                <span style={{ fontSize: '9px', padding: '2px 6px', borderRadius: '10px', backgroundColor: '#f1f5f9', color: '#475569', fontWeight: 'bold' }}>
                                                     Score: {log.riskScore}/10
                                                 </span>
                                             </div>
@@ -177,16 +177,44 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                .admin-dashboard-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 20px;
+                }
+                .admin-grid-top {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 20px;
+                }
+                .admin-grid-main {
+                    display: grid;
+                    grid-template-columns: 2fr 1fr;
+                    gap: 20px;
+                }
+                .admin-chart-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                    gap: 20px;
+                }
+                @media (max-width: 1024px) {
+                    .admin-grid-main {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            `}</style>
         </div>
     );
 };
 
 const StatCard = ({ label, value, change, color }) => (
-    <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '24px', border: '1px solid #e2e8f0', transition: 'all 0.2s ease' }}>
-        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '12px' }}>{label}</p>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-            <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#1e293b' }}>{value}</h2>
-            <span style={{ fontSize: '12px', fontWeight: '600', color: color }}>{change}</span>
+    <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', transition: 'all 0.2s ease' }}>
+        <p style={{ color: '#64748b', fontSize: '12px', marginBottom: '8px', fontWeight: 'bold', textTransform: 'uppercase' }}>{label}</p>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#1e293b' }}>{value}</h2>
+            <span style={{ fontSize: '11px', fontWeight: '700', color: color }}>{change}</span>
         </div>
     </div>
 );
